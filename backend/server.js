@@ -11,7 +11,7 @@ connectDB();
 app.use(express.json()); 
 app.use(cors());
 
-app.use("/api/v1/documents", productRoutes);
+app.use("/api/v1/product", productRoutes);
 
 app.get("/test", (req, res) => res.send("api is working"));
 
