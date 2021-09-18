@@ -1,0 +1,27 @@
+.doc {
+    min-height: 150vh;
+    background-color: rgb(196, 207, 221);
+    padding: 20px;
+  }
+  .addButton{
+    background-color: rgb(50, 196, 37);
+  }
+  .addButton:hover{
+    background-color: rgb(36, 151, 26);
+    color: white;
+  }
+  .addButtonBox{
+    display: flex;
+    justify-content: flex-end;
+  }
+  .tableHead{
+    background-color: rgb(37, 131, 13);
+  }
+  .tableRowHead{
+    background-color: rgb(241, 95, 10);
+    margin-top: 20px;
+  }
+  .tabletext{
+    color: white;
+  }
+  
