@@ -28,4 +28,8 @@
     color: white;
     margin: 20px 0px;
   }
+  .countBox{
+    display: flex;
+    justify-content: center;
+  }
   

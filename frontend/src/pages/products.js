@@ -14,10 +14,12 @@ import {
   Dialog,
   DialogTitle,
   TextField,
+  IconButton,
 } from "@material-ui/core";
 import axios from "axios";
 import Card from "../components/card";
 import style from "./products.module.css";
+import { Add, Remove } from "@material-ui/icons";
 
 const AllProductsComponent = ({ match }) => {
   const [addDialog, setAddDialog] = useState(false);
@@ -84,15 +86,22 @@ const AllProductsComponent = ({ match }) => {
 
     if (checkData) {
       console.log(checkData);
-    } else {
+    } else{
       let cartData = product.find((item) => item._id === updateId);
       const total = count * cartData.price;
-      let newCartData = { ...cartData, total: total };
+      let newCartData = { ...cartData, total: total, count:count };
       cart.push(newCartData);
       setCart(cart);
       setCartDialog(false);
+      setCount(1)
     }
   };
+  const removeHandler=(id)=>{
+    const filtered = cart.filter((item) => item._id !== id);
+
+    setCart(filtered);
+
+  }
 
   return (
     <div className={style.doc}>
@@ -141,7 +150,7 @@ const AllProductsComponent = ({ match }) => {
           {cart &&
             cart.map((item, k) => (
               <div>
-                {product.find((i) => i._id == item._id) ? (
+                {product.find((i) => i._id === item._id) ? (
                   <Grid
                     container
                     spacing={2}
@@ -152,7 +161,7 @@ const AllProductsComponent = ({ match }) => {
                       <div>{item.name} </div>
                     </Grid>
                     <Grid item xs={2}>
-                      <div>1 </div>
+                      <div>{item.count}</div>
                     </Grid>
                     <Grid item xs={2}>
                       <div>{item.price}</div>
@@ -161,7 +170,7 @@ const AllProductsComponent = ({ match }) => {
                       <div>{item.total}</div>
                     </Grid>
                     <Grid item xs={2}>
-                      <Button style={{ backgroundColor: "red" }}>Remove</Button>
+                      <Button onClick={()=>removeHandler(item._id)} style={{ backgroundColor: "red" }}>Remove</Button>
                     </Grid>
                   </Grid>
                 ) : null}
@@ -269,16 +278,26 @@ const AllProductsComponent = ({ match }) => {
         <DialogTitle>
           <Box>
             <h2 style={{ color: "green" }}>Add Product</h2>
-            <div>
-              <TextField
-                fullWidth
-                required
-                variant="outlined"
-                type="number"
-                value={count}
-                onChange={(e) => setCount(e.target.value)}
-                style={{ margin: "20px 0" }}
-              />
+            <div className={style.countBox}>
+              <IconButton
+                aria-label="delete"
+                color="primary"
+                onClick={()=>setCount(count-1)}
+                disabled={count<=1}
+
+              ><Remove/></IconButton>
+              <IconButton
+                aria-label="delete"
+                color="primary"
+              >{count}</IconButton>
+
+              <IconButton
+                aria-label="delete"
+                color="primary"
+                onClick={()=>setCount(count+1)}
+                disabled={count>=10}
+
+              ><Add/></IconButton>
             </div>
             <Button
               variant="contained"
