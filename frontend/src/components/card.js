@@ -27,6 +27,8 @@ const Card = (props) => {
                 variant="contained"
                 fullWidth
                 className={style.cartButton}
+                onClick={props.addCart}
+
               >
                 Add To Cart
               </Button>

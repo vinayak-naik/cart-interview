@@ -18,7 +18,7 @@
     background-color: rgb(37, 131, 13);
   }
   .tableRowHead{
-    margin-top: 20px;
+    margin: 20px 0px;
   }
   .tableRowHead div{
     background-color: rgb(209, 187, 174);
@@ -26,6 +26,6 @@
   }
   .tabletext{
     color: white;
-    margin-top: 20px;
+    margin: 20px 0px;
   }
   
