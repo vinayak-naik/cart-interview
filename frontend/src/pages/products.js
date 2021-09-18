@@ -21,10 +21,17 @@ import style from "./products.module.css";
 
 const AllProductsComponent = ({ match }) => {
   const [addDialog, setAddDialog]=useState(false)
+  const [updateDialog, setUpdateDialog]=useState(false)
   const [name, setName] = useState("");
+  const [updateName, setUpdateName] = useState("");
   const [price, setPrice] = useState("");
+  const [updatePrice, setUpdatePrice] = useState("");
   const [product, setProduct] = useState([]);
   const [addSuccess, setAddSuccess] = useState([]);
+  const [deleteSuccess, setDeleteSuccess] = useState([]);
+  const [updateSuccess, setUpdateSuccess] = useState([]);
+  const [updateId, setUpdateId] = useState([]);
+
 
 
   const getProducts=async()=>{
@@ -33,11 +40,10 @@ const AllProductsComponent = ({ match }) => {
     );
     setProduct(data);
   }
-  console.log(product)
 
   useEffect(() => {
     getProducts()
-  }, [addSuccess])
+  }, [addSuccess,deleteSuccess,updateSuccess])
 
 const addProductHandler=async()=>{
   const { data } = await axios.post(
@@ -49,6 +55,25 @@ const addProductHandler=async()=>{
   setName("")
   setPrice("")
 }
+const updateProductHandler=async()=>{
+  const { data } = await axios.put(
+    `http://localhost:2000/api/v1/product/${updateId}`,
+    { name:updateName, price:updatePrice },
+  );
+  setUpdateSuccess(data)
+  setUpdateDialog(false)
+  setUpdateName("")
+  setUpdatePrice("")
+}
+const update=(id)=>{
+  setUpdateDialog(true)
+  setUpdateId(id)
+}
+const deleteProductHandler=async(id)=>{
+  const { data } = await axios.delete(`http://localhost:2000/api/v1/product/${id}`);
+  setDeleteSuccess(data)
+}
+
   return (
     <div className={style.doc}>
       <Grid container direction="column" spacing={2}>
@@ -62,7 +87,7 @@ const addProductHandler=async()=>{
             
             {product && product.map((item, k)=>(
             
-<Card name={item.name} price={item.price}/>
+<Card name={item.name} price={item.price} update={()=>update(item._id)}   delete={()=>deleteProductHandler(item._id)}/>
 
             ))}
 
@@ -140,6 +165,56 @@ const addProductHandler=async()=>{
               >
                 {/* {loading ? <CircularProgress size={30} /> : "login"} */}
                 create
+              </Button>
+            </Grid>
+          </Grid>
+        </DialogTitle>
+      </Dialog>
+      <Dialog open={updateDialog} onClose={()=>setUpdateDialog(false)}>
+        <DialogTitle>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <h2 style={{ color: "#388e3c" }}>Update Product</h2>
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Name"
+                variant="outlined"
+                type="text"
+                value={updateName}
+                onChange={(e) => setUpdateName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Price"
+                variant="outlined"
+                type="number"
+                value={updatePrice}
+                onChange={(e) => setUpdatePrice(e.target.value)}
+              />
+            </Grid>
+            
+            
+
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                type="submit"
+                color="primary"
+                size="large"
+                variant="contained"
+                disabled={!updateName || !updatePrice }
+                style={{ height: 50 }}
+                onClick={updateProductHandler}
+              >
+                {/* {loading ? <CircularProgress size={30} /> : "login"} */}
+                Update
               </Button>
             </Grid>
           </Grid>

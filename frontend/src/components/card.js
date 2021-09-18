@@ -2,8 +2,12 @@ import { Box, Button, Grid } from "@material-ui/core";
 import React from "react";
 import style from "./card.module.css";
 import { Delete, Edit } from "@material-ui/icons"; 
+import axios from "axios";
 
 const Card = (props) => {
+
+
+  
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Box className={style.box}>
@@ -32,6 +36,8 @@ const Card = (props) => {
                 variant="contained"
                 startIcon={<Edit />}
                 className={style.editButton} 
+                onClick={props.update}
+
               >
                 Edit
               </Button>
@@ -39,6 +45,7 @@ const Card = (props) => {
                 variant="contained"
                 endIcon={<Delete />}
                 className={style.deleteButton}
+                onClick={props.delete}
               >
                 Delete
               </Button>
