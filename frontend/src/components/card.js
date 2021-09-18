@@ -3,7 +3,7 @@ import React from "react";
 import style from "./card.module.css";
 import { Delete, Edit } from "@material-ui/icons"; 
 
-const Card = () => {
+const Card = (props) => {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
       <Box className={style.box}>
@@ -13,10 +13,10 @@ const Card = () => {
               Image
             </Grid>
             <Grid item className={style.text}>
-              Product Name
+              {props.name}
             </Grid>
             <Grid item className={style.text}>
-              Price
+            {props.price}
             </Grid>
             <Grid item>
               <Button
